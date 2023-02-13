@@ -1,4 +1,3 @@
-
 // Require Node Packages
 const express = require("express");
 const { create } = require("express-handlebars");
@@ -6,6 +5,7 @@ const { create } = require("express-handlebars");
 const fileUpload = require("express-fileupload");
 const fs = require("fs");
 const path = require("path");
+
 
 // Set up express and environment
 const app = express();
@@ -47,6 +47,7 @@ app.use(express.json());
 //     challenge: true,
 //   })
 // );
+
 
 //file upload
 // instantiate variables

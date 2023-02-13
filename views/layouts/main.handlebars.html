@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-wrapper">
+        <div class="left-wrapper">
+            <div class="loss-and-profit">
+                <div class="total-loss-and-profit">
+                    <h1>your total <span>loss</span> is <br> <span id="totalProfitAndLoss">$200</span></h1>
+                </div>
+                <div class="HSBC-loss-and-profit">
+                    <h1>HSBC's <span>loss</span> is<br> <span>$200</span></h1>
+                </div>
+                <div class="heng-seng-bank-loss-and-profit">
+                    <h1>Heng Seng Bank's <span>loss</span> is<br> <span>$200</span></h1>
+                </div>
+            </div>
+        </div>
+        <div class="right-wrapper">
+
+            <form class="input-form">
+                <ul class="sheet-title">
+                    <li>Journal ID</li>
+                    <li>Type</li>
+                    <li>Date</li>
+                    <li>Account</li>
+                    <li>Amount</li>
+                    <li>Document</li>
+                </ul>
+                <hr>
+                <div class="sheet-item">
+                    <div class="sheet-item-left">
+                        <ul class="debit-item">
+                            <li><input type="text" name="" id="debitJournalId" disabled></li>
+                            <li>Debit</li>
+                            <li><input type="date" id="debitDate" name="debitDate" onchange="handleDate()"></li>
+                            <li><input type="text" name="" id="debitAccount"></li>
+                            <li><input type="number" name="" id="debitAmount"  onchange="handleAmount()"></li>
+                        </ul>
+                        <ul class="credit-item">
+                            <li><input type="text" name="" id="creditJournalId" disabled></li>
+                            <li>Credit</li>
+                            <li><input type="date" id="creditDate" name="creditDate" disabled></li>
+                            <li><input type="text" name="" id="creditAccount"></li>
+                            <li><input type="number" name="" id="creditAmount" disabled></li>
+                        </ul>
+                    </div>
+                    <div class="sheet-item-right">
+                        <input type="file" name="myfile" id="myFile">
+                    </div>
+                </div>
+                <input type="submit" value="submit" onclick="submitVal(e)">
+            </form>
+            <div class="balance-sheet">
+                <ul class="sheet-title">
+                    <li>Journal ID</li>
+                    <li>type</li>
+                    <li>Date</li>
+                    <li>Account</li>
+                    <li>Amount</li>
+                    <li>Document</li>
+                </ul>
+                <hr>
+                <!-- item container -->
+                {{{body}}}
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</body>
+</html>
