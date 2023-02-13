@@ -24,6 +24,7 @@ body{
 
 .loss-and-profit{
     display: flex;
+    flex-direction: column;
     gap:50px
 }
 
@@ -40,7 +41,7 @@ body{
 }
 
 .sheet-title li:nth-child(4) {
-    flex: 3;
+    flex: 2;
 }
 
 .item-container{
@@ -72,7 +73,7 @@ body{
 
 .debit-item li:nth-child(4),
 .credit-item li:nth-child(4) {
-    flex: 3;
+    flex: 2;
 }
 
 .sheet-item-right {
