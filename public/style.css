@@ -1,0 +1,84 @@
+body{
+    margin: 0;
+}
+
+.app-wrapper{
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.left-wrapper{
+    flex: 1;
+    background-color: antiquewhite;
+    padding: 30px;
+    box-sizing:border-box;
+}
+
+.right-wrapper{
+    flex: 3;
+    background-color: rgb(221, 221, 222);
+    padding: 30px;
+    box-sizing:border-box;
+}
+
+.loss-and-profit{
+    display: flex;
+    gap:50px
+}
+
+.sheet-title{
+    display: flex;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.sheet-title li{
+    list-style-type: none;
+    flex:1;
+}
+
+.sheet-title li:nth-child(4) {
+    flex: 3;
+}
+
+.item-container{
+    display: flex;
+    flex-direction: column;
+    gap:10px
+}
+.sheet-item{
+    display: flex;
+}
+
+.sheet-item-left{
+    flex:7;
+    display:flex;
+    flex-direction: column;
+}
+
+.debit-item, .credit-item {
+    display: flex;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.debit-item li, .credit-item li {
+    list-style-type: none;
+    flex: 1;
+}
+
+.debit-item li:nth-child(4),
+.credit-item li:nth-child(4) {
+    flex: 3;
+}
+
+.sheet-item-right {
+    flex: 1
+}
+
+.hidden{
+    display: none;
+}

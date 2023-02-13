@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-wrapper">
+        <div class="left-wrapper">
+            <form class="input-form">
+                <label for="date">Date</label><br>
+                <input type="date" id="date" name="date"><br>
+
+                <label for="debit-account">Debit Account</label><br>
+                <input type="text" name="" id="debit-account"><br>
+
+                <label for="credit-account">Credit Account</label><br>
+                <input type="text" name="" id="credit-account"><br>
+
+                <label for="account">Account</label><br>
+                <input type="number" name="" id=""><br>
+
+                <label for="myfile">Document</label><br>
+                <input type="file" id="myfile" name="myfile"><br>
+
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <div class="right-wrapper">
+            <div class="loss-and-profit">
+                <div class="total-loss-and-profit">
+                    <h1>your total <span>loss</span> is <br> <span>$200</span></h1>
+                </div>
+                <div class="HSBC-loss-and-profit">
+                    <h1>HSBC's <span>loss</span> is<br> <span>$200</span></h1>
+                </div>
+                <div class="heng-seng-bank-loss-and-profit">
+                    <h1>Heng Seng Bank's <span>loss</span> is<br> <span>$200</span></h1>
+                </div>
+            </div>
+            <div class="balance-sheet">
+                <ul class="sheet-title">
+                    <li>type</li>
+                    <li>Journal Number</li>
+                    <li>Date</li>
+                    <li>Account</li>
+                    <li>Amount</li>
+                    <li>Document</li>
+                </ul>
+                <hr>
+                <!-- item container -->
+                <div class="item-container">
+                    <!-- item -->
+                    <div class="sheet-item">
+                        <div class="sheet-item-left">
+                            <ul class="debit-item">
+                                <li>debit</li>
+                                <li>202301-001</li>
+                                <li>20230101</li>
+                                <li>material fee</li>
+                                <li>300</li>
+                            </ul>
+                            <ul class="credit-item">
+                                <li>credit</li>
+                                <li>202301-001</li>
+                                <li>20230101</li>
+                                <li>HSBC</li>
+                                <li>300</li>
+                            </ul>
+                        </div>
+                        <div class="sheet-item-right">
+                            file.pdf
+                        </div>
+                    </div>
+                    <!-- end of item -->
+
+                    <!-- item -->
+                    <div class="sheet-item">
+                        <div class="sheet-item-left">
+                            <ul class="debit-item">
+                                <li>debit</li>
+                                <li>202301-001</li>
+                                <li>20230101</li>
+                                <li>material fee</li>
+                                <li>300</li>
+                            </ul>
+                            <ul class="credit-item">
+                                <li>credit</li>
+                                <li>202301-001</li>
+                                <li>20230101</li>
+                                <li>HSBC</li>
+                                <li>300</li>
+                            </ul>
+                        </div>
+                        <div class="sheet-item-right">
+                            file.pdf
+                        </div>
+                    </div>
+                    <!-- end of item -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
