@@ -5,7 +5,9 @@ const { create } = require("express-handlebars");
 const fileUpload = require("express-fileupload");
 const fs = require("fs");
 const path = require("path");
-
+const knexFile = require("./knexfile").development;
+const knex = require("knex")(knexFile);
+require("dotenv").config();
 
 // Set up express and environment
 const app = express();
@@ -47,7 +49,6 @@ app.use(express.json());
 //     challenge: true,
 //   })
 // );
-
 
 //file upload
 // instantiate variables
