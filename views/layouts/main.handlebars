@@ -38,7 +38,7 @@
         </div>
         <div class="right-wrapper">
 
-            <form class="input-form">
+            <form id="user_input" class="input-form">
                 <ul class="sheet-title">
                     <li>Journal ID</li>
                     <li>Type</li>
@@ -53,15 +53,15 @@
                         <ul class="debit-item">
                             <li><input type="text" name="" id="debitJournalId" disabled></li>
                             <li>Debit</li>
-                            <li><input type="date" id="debitDate" name="debitDate" onchange="handleDate()"></li>
-                            <li><input type="text" name="" id="debitAccount"></li>
-                            <li><input type="number" name="" id="debitAmount"  onchange="handleAmount()"></li>
+                            <li><input type="date" id="debitDate" name="debitDate" onchange="handleDate()" required></li>
+                            <li><input type="text" name="" id="debitAccount" required></li>
+                            <li><input type="number" name="" id="debitAmount"  onchange="handleAmount()" required></li>
                         </ul>
                         <ul class="credit-item">
                             <li><input type="text" name="" id="creditJournalId" disabled></li>
                             <li>Credit</li>
                             <li><input type="date" id="creditDate" name="creditDate" disabled></li>
-                            <li><input type="text" name="" id="creditAccount"></li>
+                            <li><input type="text" name="" id="creditAccount" required></li>
                             <li><input type="number" name="" id="creditAmount" disabled></li>
                         </ul>
                     </div>
@@ -69,7 +69,9 @@
                         <input type="file" name="myfile" id="myFile">
                     </div>
                 </div>
-                <input type="submit" value="submit" onclick="submitVal(e)">
+                <input type="submit" value="submit" onclick="submitVal(e)">   
+                
+                {{!-- Sam: Should link to these data above  --}}
             </form>
             <div class="balance-sheet">
                 <ul class="sheet-title">
@@ -89,5 +91,8 @@
     <script src="app.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script src="journal.js"></script>
+
 </body>
 </html>

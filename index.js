@@ -55,76 +55,36 @@ app.use(express.json());
 const cache = {};
 const uploadDirectory = __dirname + path.sep + "uploaded";
 
-// Promise Version of functions -- seperated
-function write(name, data) {
-  return new Promise((resolve, reject) => {
-    fs.writeFile(uploadDirectory + path.sep + name, data, (error) => {
-      if (error) {
-        console.log(error);
-        reject(error);
-      }
-      resolve(name);
-    });
-  }).then(read);
-}
+//Handle the user inputted data into JSON file in /api/journal_db/
 
-function read(file) {
-  return new Promise((resolve, reject) => {
-    fs.readFile(uploadDirectory + path.sep + file, (err, data) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(data);
-    });
-  });
-}
+app.post("/api/accountData", async (req, res) => {
+  console.log(req.body)
 
-// handle a request to list out all of the files within the folder uploaded
-app.get("/directoryInformation", (req, res) => {
-  fs.readdir(__dirname + "/uploaded", (error, information) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log(information);
-      res.send(information);
-    }
-  });
+const { debitData, creditData } = req.body;
+await knex("journal_list").insert(debitData);
+await knex("journal_list").insert(creditData);
+
 });
 
-// handle file being sent to the server
-app.post("/", (req, res) => {
-  console.log(req.files.file);
-  if (req.files.file) {
-    cache[req.files.file.name] = write(
-      req.files.file.name,
-      req.files.file.data
-    );
-    cache[req.files.file.name].then(() => {
-      res.send(req.files.file.name);
-      // res.redirect("/"); // use the inbuilt html form methods post and action
-    });
-  }
-});
+// return this.knex("#debitAccount").insert({ debit_ac: req.body });
 
-// handle downloading a file from server
-app.get("/uploaded/:filename", (req, res) => {
-  console.log(cache, "<<<<< cache");
-  // handle download if the item is in cache
-  if (cache[req.params.filename]) {
-    console.log(" in cache?");
-    cache[req.params.filename].then((data) => {
-      res.send(data);
-    });
-    // handle the download by first storing value in cache then giving it back
-  } else {
-    console.log(" not in cache?");
-    cache[req.params.filename] = read(req.params.filename);
-    cache[req.params.filename].then((data) => {
-      console.log(cache, "<<<< cache after population");
-      res.send(data);
-    });
-  }
-});
+//await knex("users").insert({ fname, lname });
+//res.json("post success");
+
+// reference code from dropbox file
+// app.post("/", (req, res) => {
+//   console.log(req.files.file);
+//   if (req.files.file) {
+//     cache[req.files.file.name] = write(
+//       req.files.file.name,
+//       req.files.file.data
+//     );
+//     cache[req.files.file.name].then(() => {
+//       res.send(req.files.file.name);
+//       // res.redirect("/"); // use the inbuilt html form methods post and action
+//     });
+//   }
+// });
 
 //index router
 
@@ -139,3 +99,6 @@ app.get("/", (req, res) => {
 app.listen(port, () =>
   console.log(`Note Taking application listening to ${port}!`)
 );
+
+
+
