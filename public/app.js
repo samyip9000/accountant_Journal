@@ -1,3 +1,5 @@
+let accountData={};
+
 let profitAndLossData = {};
 
 let idSeed = 0;
@@ -35,14 +37,18 @@ function handleAmount() {
   document.querySelector("#creditAmount").value = amount;
 }
 
-function handleFileName() {
-  console.log(document.querySelector("#myFile").value);
-}
+let myFile = document.querySelector("#myFile");
+let fileName = "";
+myFile.addEventListener("change",(event) => {
+  fileName = event.target.files[0].name;
+  console.log(fileName);
+});
 
 const submitForm = document.querySelector(".input-form");
 submitForm.addEventListener("submit", (event) => {
   event.preventDefault();
   console.log(event);
+
 
   const debitData = {
     journal_id: document.querySelector("#debitJournalId").value,
@@ -51,7 +57,7 @@ submitForm.addEventListener("submit", (event) => {
     account: document.querySelector("#debitAccount").value,
     amount: document.querySelector("#debitAmount").value,
     //backEndCalculation: document.querySelector("#debitAmount").value,
-    user_id: 1,
+    user_id: 1
     //myFileVal: document.querySelector("#myFile").value,
   };
   //save credit form data
@@ -62,7 +68,7 @@ submitForm.addEventListener("submit", (event) => {
     account: document.querySelector("#creditAccount").value,
     amount: document.querySelector("#creditAmount").value,
     //backEndCalculation: -document.querySelector("#debitAmount").value,
-    user_id: 1,
+    user_id:1
     //myFileVal: document.querySelector("#myFile").value,
   };
 
@@ -89,18 +95,21 @@ submitForm.addEventListener("submit", (event) => {
     .then(function (responseData) {
       console.log(responseData);
     });
-  // renderTable();
+    init()
 });
 
 function init() {
+  document.querySelector("#itemContainer").innerHTML="";
   fetch("/api/accountData")
     .then(function (response) {
       return response.json();
     })
     .then(function (responseData) {
       console.log(responseData);
-      idSeed = responseData.length / 2 + 1;
-      renderTable(responseData);
+      accountData=responseData.accountData;
+      console.log(accountData)
+      idSeed = accountData.length / 2 + 1;
+      renderTable(accountData);
     });
   renderProfitAndLoss();
 }
@@ -110,28 +119,33 @@ function renderTable(accountData) {
     //debit account make new item
     let resultHTML = "";
     if (i === 0 || i % 2 === 0) {
+      let year= (accountData[i].date).slice(0,4);
+      let month =(accountData[i].date).slice(6,7);
+      let day = (accountData[i].date).slice(9,10);
+      let fullDate = year+"-"+month+"-"+day;
+
       resultHTML += `
                 <div class="sheet-item">
                     <div class="sheet-item-left">
                         <ul class="debit-item">
-                            <li>${accountData[i].id}</li>
+                            <li>${accountData[i].journal_id}</li>
                             <li>Debit</li>
-                            <li>${accountData[i].date}</li>
+                            <li>${fullDate}</li>
                             <li>${accountData[i].account}</li>
                             <li>${accountData[i].amount}</li>
                         </ul>
                         <ul class="credit-item">
-                            <li>${accountData[i + 1].id}</li>
+                            <li>${accountData[i + 1].journal_id}</li>
                             <li>Credit</li>
-                            <li>${accountData[i + 1].date}</li>
+                            <li>${fullDate}</li>
                             <li>${accountData[i + 1].account}</li>
                             <li>${accountData[i + 1].amount}</li>
                         </ul>
                     </div>
                     <div class="sheet-item-right">
                         <a class='file' href="/uploaded/${
-                          accountData[i].myFileVal
-                        }">${accountData[i].myFileVal}</a>
+                          accountData[i].document
+                        }">${accountData[i].document}</a>
                     </div>
                 </div>
             `;
@@ -147,7 +161,9 @@ function renderProfitAndLoss() {
     })
     .then(function (responseData) {
       console.log(responseData);
-      counterProfitAndLoss(responseData);
+      let accountData=responseData.accountData;
+      console.log(accountData);
+      counterProfitAndLoss(accountData);
       document.querySelector(".loss").innerHTML = "";
       document.querySelector(".profit").innerHTML = "";
       let resultHTMLoss = "";
@@ -190,10 +206,14 @@ function counterProfitAndLoss(accountData) {
     for (let j = 0; j < accountList.length; j++) {
       if (accountList[j] === accountData[i].account) {
         if (profitAndLossData.hasOwnProperty(accountList[j])) {
-          profitAndLossData[accountList[j]] +=
-            accountData[i].backEndCalculation;
+          if(accountData[i].type==="debit"){
+            profitAndLossData[accountList[j]] += accountData[i].amount;
+          }else{
+            profitAndLossData[accountList[j]] -= accountData[i].amount;
+          }
+
         } else {
-          profitAndLossData[accountList[j]] = accountData[i].backEndCalculation;
+          profitAndLossData[accountList[j]] = accountData[i].amount;
         }
       }
     }

@@ -8,33 +8,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-wrapper">
-        <div class="left-wrapper">
-            <div class="loss-and-profit">
-                <div class="loss">
-                    <div class="loss-item">
-                        <div id="sales">Sales</div>
-                        <span id="salesPnL">(40000)</span>
-                    </div>
-                </div>
-                <div class="profit">
-                    <div class="profit-item">
-                        <div id="costOfGoodsSold">Cost of goods sold</div>
-                        <span id="costOfGoodsSoldPnL">10000</span>
-                    </div>
-                    <div class="profit-item">
-                        <div id="rent">Rent</div>
-                        <span id="salesPnL">10000</span>
-                    </div>
-                    <div class="profit-item">
-                        <div id="Payroll">Payroll</div>
-                        <span id="PayrollPnL">8000</span>
-                    </div>
-                </div>
-                <div class="net-profit">
-                    
-                </div>
-            </div>
+    <div class="menu">
+        <div class="greeting">
+            <p>Hello,<span id="userName"></span></p>
         </div>
         <div class="right-wrapper">
 
@@ -71,7 +47,7 @@
                 </div>
                 <input type="submit" value="submit" onclick="submitVal(e)">   
                 
-    
+                {{!-- Sam: Should link to these data above  --}}
             </form>
             <div class="balance-sheet">
                 <ul class="sheet-title">
@@ -88,6 +64,7 @@
             </div>
         </div>
     </div>
+    {{{body}}}
     <script src="app.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
