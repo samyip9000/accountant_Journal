@@ -1,4 +1,67 @@
-<div class="item-container" id="itemContainer">
-    <!-- item -->
-    <!-- end of item -->
+<div class="app-wrapper">
+    <div class="left-wrapper">
+        <div class="loss-and-profit">
+            <div class="loss">
+            </div>
+            <div class="profit">
+            </div>
+            <div class="net-profit">
+
+            </div>
+        </div>
+    </div>
+    <div class="right-wrapper">
+
+        <form id="user_input" class="input-form">
+            <ul class="sheet-title">
+                <li>Journal ID</li>
+                <li>Type</li>
+                <li>Date</li>
+                <li>Account</li>
+                <li>Amount</li>
+                <li>Document</li>
+            </ul>
+            <hr>
+            <div class="sheet-item">
+                <div class="sheet-item-left">
+                    <ul class="debit-item">
+                        <li><input type="text" name="" id="debitJournalId" disabled></li>
+                        <li>Debit</li>
+                        <li><input type="date" id="debitDate" name="debitDate" onchange="handleDate()" required></li>
+                        <li><input type="text" name="" id="debitAccount" required></li>
+                        <li><input type="number" name="" id="debitAmount" onchange="handleAmount()" required></li>
+                    </ul>
+                    <ul class="credit-item">
+                        <li><input type="text" name="" id="creditJournalId" disabled></li>
+                        <li>Credit</li>
+                        <li><input type="date" id="creditDate" name="creditDate" disabled></li>
+                        <li><input type="text" name="" id="creditAccount" required></li>
+                        <li><input type="number" name="" id="creditAmount" disabled></li>
+                    </ul>
+                </div>
+                <div class="sheet-item-right">
+                    <input type="file" name="myfile" id="myFile">
+                </div>
+            </div>
+            <input type="submit" value="submit" onclick="submitVal(e)">
+
+            {{!-- Sam: Should link to these data above --}}
+        </form>
+        <div class="balance-sheet">
+            <ul class="sheet-title">
+                <li>Journal ID</li>
+                <li>type</li>
+                <li>Date</li>
+                <li>Account</li>
+                <li>Amount</li>
+                <li>Document</li>
+            </ul>
+            <hr>
+            <!-- item container -->
+            <div class="item-container" id="itemContainer">
+                <!-- item -->
+                <!-- end of item -->
+            </div>
+        </div>
+    </div>
 </div>
