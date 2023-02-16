@@ -6,11 +6,11 @@ const { create } = require("express-handlebars");
 // const basicAuth = require("express-basic-auth");
 const fileUpload = require("express-fileupload");
 const fs = require("fs");
-const flash = require("express-flash");
-const bcrypt = require("bcrypt");
+// const flash = require("express-flash");
 const session = require("express-session");
 const LocalStrategy = require("passport-local").Strategy;
 const passport = require("passport");
+const passportJS = require("./passport");
 require("dotenv").config();
 // const router = require("./router")(express);
 const port = 3000;
@@ -21,6 +21,15 @@ const path = require("path");
 
 // Set up express and environment
 const app = express();
+
+app.use(
+  session({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
 // require("dotenv").config();
 
 // Require User create modules
@@ -39,6 +48,9 @@ const hbs = create({
   },
 });
 
+//set up passport
+passportJS(app,passport);
+
 // Set up handlebars as our view engine - handlebars will responsible for rendering our HTML
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
@@ -49,13 +61,71 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// app.use(
-//   basicAuth({
-//     authorizeAsync: true,
-//     authorizer: AuthChallenger(knex),
-//     challenge: true,
-//   })
-// );
+
+
+//add passport route
+function isLoggedIn(req, res, next) {
+  //If authenticated move to the next request, else redirect to login page
+  if (req.isAuthenticated()) return next();
+  res.redirect("/login");
+}
+
+function notLoggedIn(req, res, next) {
+  //If not authenticated move to the next request, else redirect to home page
+  if (!req.isAuthenticated()) return next();
+  res.redirect("/");
+}
+
+
+//Render pages
+app.get("/", isLoggedIn, (req, res) => {
+  res.render("index");
+});
+
+app.get("/signup", notLoggedIn, (req, res) => {
+  res.render("signup", {
+    title: "Sign Up page",
+    // error: req.flash("error"),
+  });
+});
+
+app.get("/login", notLoggedIn, (req, res) => {
+  res.render("login", {
+    title: "Login page",
+    // error: req.flash("error"),
+  });
+});
+
+//Signup Request
+app.post(
+  "/signup",
+  passport.authenticate("local-signup", {
+    successRedirect: "/login",
+    failureRedirect: "/signup",
+    // failureFlash: true,
+  })
+);
+
+//Login Request
+app.post(
+  "/login",
+  passport.authenticate("local-login", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    // failureFlash: true,
+  })
+);
+
+//Logout Request
+app.get("/logout", (req, res) => {
+  req.logout(function (err) {
+    if (err) {
+      return err;
+    }
+  });
+  res.redirect("/login");
+});
+
 
 //file upload
 // instantiate variables
@@ -94,10 +164,10 @@ app.get("/api/accountData", async (req, res) => {
 // });
 
 // index router
-app.get("/", (req, res) => {
-  res.render("index", {
-  });
-});
+// app.get("/", (req, res) => {
+//   res.render("index", {
+//   });
+// });
 
 app.listen(port, () =>
   console.log(`Note Taking application listening to ${port}!`)
