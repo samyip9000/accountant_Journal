@@ -9,8 +9,9 @@ The attachment next to the jorunal allows manager to easily review the journal's
 1) Enter the date for the document.   (Credit line is automatically the same)
 2) Enter the account for the entry: (e.g. Debit Rent, Credit HSBC)
 3) Enter the amount.  (Credit line is automatically the same)
+4) The inputted data is shown below the input interface.
 
-<img src="readme_input.png" alt="Alt text" title="Input interface">
+<img src="Readme_input.png" alt="Alt text" title="Input interface">
 
 Note: 
 Journal ID is automatically generated.

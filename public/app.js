@@ -43,23 +43,7 @@ const submitForm = document.querySelector(".input-form");
 submitForm.addEventListener("submit", (event) => {
   event.preventDefault();
   console.log(event);
-  //if the input is not fill, it return
-  //   if (
-  //     document.querySelector("#date").value === "" ||
-  //     document.querySelector("#debitAccount").value === "" ||
-  //     document.querySelector("#debitAmount").value === "" ||
-  //     document.querySelector("#myFile").value === "" ||
-  //     document.querySelector("#creditAccount").value === "" ||
-  //     document.querySelector("#creditAmount").value === "" ||
-  //     //if creditAmount and debitAmount are same, it return
-  //     document.querySelector("#creditAmount").value ===
-  //       document.querySelector("#debitAmount").value
-  //   ) {
-  //     alert("fail");
-  //   }
 
-  //
-  //save debit form data
   const debitData = {
     journal_id: document.querySelector("#debitJournalId").value,
     type: "debit",
@@ -67,7 +51,7 @@ submitForm.addEventListener("submit", (event) => {
     account: document.querySelector("#debitAccount").value,
     amount: document.querySelector("#debitAmount").value,
     //backEndCalculation: document.querySelector("#debitAmount").value,
-    user_id: 1
+    user_id: 1,
     //myFileVal: document.querySelector("#myFile").value,
   };
   //save credit form data
@@ -78,7 +62,7 @@ submitForm.addEventListener("submit", (event) => {
     account: document.querySelector("#creditAccount").value,
     amount: document.querySelector("#creditAmount").value,
     //backEndCalculation: -document.querySelector("#debitAmount").value,
-    user_id:1
+    user_id: 1,
     //myFileVal: document.querySelector("#myFile").value,
   };
 
@@ -89,11 +73,11 @@ submitForm.addEventListener("submit", (event) => {
   idSeed++;
 
   //handle formdata
- // document.write(formData);
+  // document.write(formData);
   // fs.writeFileSync('stores/accountData.json', debitData);
 
   fetch("/api/accountData", {
-    body: JSON.stringify({debitData, creditData}),
+    body: JSON.stringify({ debitData, creditData }),
     headers: {
       "content-type": "application/json",
     },
