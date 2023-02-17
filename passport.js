@@ -1,4 +1,3 @@
-// const passport = require("passport");
 const bcrypt = require("bcrypt");
 const LocalStrategy = require("passport-local").Strategy;
 const knex = require("knex")({
@@ -30,7 +29,6 @@ module.exports = (app,passport) => {
         }
         //hashing the entered password and comparing with the hash password from the database
         const result = await bcrypt.compare(password, user.password);
-
         return result
           ? done(null, user)
           : done(null, false, { message: "Incorrect Password" });
