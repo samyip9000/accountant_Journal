@@ -95,8 +95,18 @@ submitForm.addEventListener("submit", (event) => {
     .then(function (responseData) {
       console.log(responseData);
     });
-    init()
-});
+    init();
+    document.querySelector("#debitJournalId").value="";
+    document.querySelector("#debitDate").value="";
+    document.querySelector("#debitAccount").value="";
+    document.querySelector("#debitAmount").value="";
+    document.querySelector("#creditJournalId").value="";
+    document.querySelector("#creditDate").value="";
+    document.querySelector("#creditAccount").value="";
+    document.querySelector("#creditAmount").value="";
+    
+  }
+);
 
 function init() {
   document.querySelector("#itemContainer").innerHTML="";
@@ -108,7 +118,7 @@ function init() {
       console.log(responseData);
       accountData=responseData.accountData;
       console.log(accountData)
-      idSeed = accountData.length / 2 + 1;
+      idSeed = Math.floor(accountData.length / 2 + 1);
       renderTable(accountData);
     });
   renderProfitAndLoss();
@@ -221,5 +231,8 @@ function counterProfitAndLoss(accountData) {
   console.log(profitAndLossData);
   return profitAndLossData;
 }
+
+
+
 
 init();

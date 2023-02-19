@@ -1,13 +1,27 @@
-<form action="/login" method="post">
-    <div>
-        <label>Email:</label>
-        <input type="text" name="username" />
+<div class="app-wrapper log-in">
+    <div class="sign-up-box">
+        <h1>Log In</h1>
+        <form action="/login" method="post">
+            <div>
+                <div>
+                    <label><h3>Email</h3></label>
+                </div>
+                <div>
+                    <input type="text" name="username" class="input-box"/>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label><h3>Password</h3></label>
+                </div>
+                <div>
+                    <input type="password" name="password" class="input-box"/>
+                </div>
+            </div>
+            <div>
+                <input type="submit" value="Log In" class="primary-btn"/>
+                <a class="link" href="signup">Sign Up</a>
+            </div>
+        </form>
     </div>
-    <div>
-        <label>Password:</label>
-        <input type="password" name="password" />
-    </div>
-    <div>
-        <input type="submit" value="Log In" />
-    </div>
-</form>
+</div>
