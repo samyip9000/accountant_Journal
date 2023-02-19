@@ -3,7 +3,6 @@ const https = require("https");
 const express = require("express");
 
 const { create } = require("express-handlebars");
-const fileUpload = require("express-fileupload");
 const fs = require("fs");
 // const flash = require("express-flash");
 const session = require("express-session");
@@ -16,24 +15,41 @@ const port = 3000;
 const path = require("path");
 const { user } = require("pg/lib/defaults");
 
+const bodyParser = require("body-parser");
+const fileUpload = require("express-fileupload");
 
-// require("dotenv").config();
+let cookieParser = require('cookie-parser')
 
 // Set up express and environment
 const app = express();
 
+// require("dotenv").config();
+
+app.use(fileUpload());
+
+// uploadDirectory is the path to our directory named uploaded, where we will store our cached files, path.sep provides the platform specific path segment separator
+const uploadDirectory = __dirname + path.sep + "uploaded";
+
+// Server the uploaded folder to the server, allowing the users to download cached information.
+app.use(express.static("uploaded"));
+app.use(express.static("public/"));
+
+// Declare a variable named caches, define it as an empty object
+let caches = {};
+
+
+app.use(cookieParser());
 app.use(
   session({
     secret: "secret",
-    resave: false,
-    saveUninitialized: false,
+    name: 'cookie_name',
+    proxy: true,
+    resave: true,
+    saveUninitialized: true,
   })
 );
 
-// require("dotenv").config();
-
 // Require User create modules
-// const AuthChallenger = require("./AuthChallenger");
 
 // Set up connection to postgres database via knex
 const knexConfig = require("./knexfile").development;
@@ -61,13 +77,12 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-
-
 //add passport route
 function isLoggedIn(req, res, next) {
   //If authenticated move to the next request, else redirect to login page
   if (req.isAuthenticated()) return next();
   res.redirect("/login");
+
 }
 
 function notLoggedIn(req, res, next) {
@@ -76,10 +91,9 @@ function notLoggedIn(req, res, next) {
   res.redirect("/");
 }
 
-
 //Render pages
 app.get("/", isLoggedIn, (req, res) => {
-  res.render("index");
+  res.render("index", {loggedIn: req.session.loggedIn});
 });
 
 app.get("/signup", notLoggedIn, (req, res) => {
@@ -128,9 +142,36 @@ app.get("/logout", (req, res) => {
 
 
 //file upload
+// writeFile is a function which takes the name of the file and the body (data) for storage - it will write the file to our uploadDirectory 'uploaded', this promise resolves with the name of the file
+function writeFile(name, body) {
+  return new Promise((resolve, reject) => {
+    fs.writeFile(uploadDirectory + path.sep + name, body, (err) => {
+      if (err) {
+        return reject(err);
+      } else {
+        resolve(name);
+      }
+    });
+  }).then(readFile);
+}
+
+// readFile is a function which takes the file as an input, it goes to the 'uploaded' directory that we serve via express. It will then look for the name of the file that we pass into the function, the promise will resolve with the body of the file (the data)
+
+function readFile(file) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(uploadDirectory + path.sep + file, (err, body) => {
+      if (err) {
+        return reject(err);
+      } else {
+        resolve(body);
+      }
+    });
+  });
+}
+
+console.log(caches);
+
 // instantiate variables
-const cache = {};
-const uploadDirectory = __dirname + path.sep + "uploaded";
 
 //Handle the user inputted data into JSON file in /api/journal_db/
 app.post("/api/accountData", async (req, res) => {
@@ -147,27 +188,45 @@ app.get("/api/accountData", async (req, res) => {
   res.json({accountData});
 });
 
-  
-// reference code from dropbox file
-// app.post("/", (req, res) => {
-//   console.log(req.files.file);
-//   if (req.files.file) {
-//     cache[req.files.file.name] = write(
-//       req.files.file.name,
-//       req.files.file.data
-//     );
-//     cache[req.files.file.name].then(() => {
-//       res.send(req.files.file.name);
-//       // res.redirect("/"); // use the inbuilt html form methods post and action
-//     });
-//   }
-// });
 
-// index router
-// app.get("/", (req, res) => {
-//   res.render("index", {
-//   });
-// });
+
+app.post("/files", (req, res) => {
+  // after the request path upload.single('upload'),
+  console.log(req.files);
+  console.log(req.files);
+
+  let file = req.files.upload.name;
+  let data = req.files.upload.data;
+
+  caches[file] = writeFile(file, data);
+
+  caches[file]
+    .then(() =>
+      res.send(
+        "Wow you sent a file, can you remember how to download it? Goto your browser, url: localhost:3000/uploaded/:file-name"
+      )
+    )
+    .catch((e) => res.status(500).send(e.message));
+  //   }
+});
+
+app.get("/uploaded/:name", (req, res) => {
+  if (caches[req.params.name] == null) {
+    console.log("reading from folder");
+    caches[req.params.name] = readFile(req.params.name);
+  }
+  console.log(caches);
+  console.log(caches[req.params.name]);
+
+  caches[req.params.name]
+    .then((body) => {
+      console.log(body);
+      res.send(body);
+    })
+    .catch((e) => res.status(500).send(e.message));
+});
+
+
 
 app.listen(port, () =>
   console.log(`Note Taking application listening to ${port}!`)

@@ -1,4 +1,4 @@
-<div class="app-wrapper">
+<div class="app-wrapper index">
     <div class="left-wrapper">
         <div class="loss-and-profit">
             <div class="loss">
@@ -12,7 +12,7 @@
     </div>
     <div class="right-wrapper">
 
-        <form id="user_input" class="input-form">
+        <form id="user_input" class="input-form" action='/files' enctype="multipart/form-data" method="post">
             <ul class="sheet-title">
                 <li>Journal ID</li>
                 <li>Type</li>
@@ -40,11 +40,12 @@
                     </ul>
                 </div>
                 <div class="sheet-item-right">
-                    <input type="file" name="myfile" id="myFile">
+                    <input type="file" name='upload' id='myFile' multiple size='50' onchange="myFunction()" >
                 </div>
             </div>
-            <input type="submit" value="submit">
-
+            <div class="submit-container">
+                <input type="submit" value='Submit' class="primary-btn">
+            </div>
             {{!-- Sam: Should link to these data above --}}
         </form>
         <div class="balance-sheet">

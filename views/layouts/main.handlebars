@@ -8,15 +8,17 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="menu">
-        <div class="greeting">
-            <p>Hello,<span id="userName"></span></p>
+    <div class="main-wrapper">
+        <div class="menu">
+            <div class="greeting">
+                <p>Hello,<span id="userName"></span></p>
+            </div>
+            <div class="logout">
+                <a href='/logout'><button type='button' name="button">Logout Now!</button></a>
+            </div>
         </div>
-        <div class="logout">
-            <a href='/logout'><button type='button' name="button">Logout Now!</button></a>
-        </div>
+        {{{body}}}
     </div>
-    {{{body}}}
     <script src="app.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
