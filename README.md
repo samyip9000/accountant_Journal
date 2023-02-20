@@ -20,12 +20,12 @@ Journal ID is automatically generated.
 **Frontend:** 
 Handlebars
 Passport authentication
-User data entry - POST request
-Display of data from database - GET request
 Javascript to do the subtotal calculation
 
 **Backend:**
 Express application broken into modules.
+User data entry - POST request
+Display of data from database - GET request
 Database: Postgres
 
 
