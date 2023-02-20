@@ -5,35 +5,33 @@ const knex = require("knex")({
   connection: {
     database: "journal_list",
     user: "postgres",
-    password: "postgres",
+    password: "0812",
   },
 });
 
-module.exports = (app,passport) => {
+module.exports = (app, passport) => {
   app.use(passport.initialize());
   app.use(passport.session());
 
-//Login
+  //Login
   passport.use(
     "local-login",
-    new LocalStrategy(
-      async (username, password, done) => {
-        //Check if the user exists in the database
-        const user = await knex("users").where({ username }).first(); // {id: 1, email: a@a, password: 2@10.....}
+    new LocalStrategy(async (username, password, done) => {
+      //Check if the user exists in the database
+      const user = await knex("users").where({ username }).first(); // {id: 1, email: a@a, password: 2@10.....}
 
-        if (!user) {
-          //if user does not exists then don't authenticate the user
-          return done(null, false, {
-            message: "User does not exist in the database",
-          });
-        }
-        //hashing the entered password and comparing with the hash password from the database
-        const result = await bcrypt.compare(password, user.password);
-        return result
-          ? done(null, user)
-          : done(null, false, { message: "Incorrect Password" });
+      if (!user) {
+        //if user does not exists then don't authenticate the user
+        return done(null, false, {
+          message: "User does not exist in the database",
+        });
       }
-    )
+      //hashing the entered password and comparing with the hash password from the database
+      const result = await bcrypt.compare(password, user.password);
+      return result
+        ? done(null, user)
+        : done(null, false, { message: "Incorrect Password" });
+    })
   );
 
   passport.serializeUser((user, done) => {
@@ -81,5 +79,4 @@ module.exports = (app,passport) => {
       }
     )
   );
-  
 };

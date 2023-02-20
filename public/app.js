@@ -1,4 +1,4 @@
-let accountData={};
+let accountData = {};
 
 let profitAndLossData = {};
 
@@ -39,7 +39,7 @@ function handleAmount() {
 
 let myFile = document.querySelector("#myFile");
 let fileName = "";
-myFile.addEventListener("change",(event) => {
+myFile.addEventListener("change", (event) => {
   fileName = event.target.files[0].name;
   console.log(fileName);
 });
@@ -49,7 +49,6 @@ submitForm.addEventListener("submit", (event) => {
   event.preventDefault();
   console.log(event);
 
-
   const debitData = {
     journal_id: document.querySelector("#debitJournalId").value,
     type: "debit",
@@ -57,7 +56,7 @@ submitForm.addEventListener("submit", (event) => {
     account: document.querySelector("#debitAccount").value,
     amount: document.querySelector("#debitAmount").value,
     //backEndCalculation: document.querySelector("#debitAmount").value,
-    user_id: 1
+    user_id: 1,
     //myFileVal: document.querySelector("#myFile").value,
   };
   //save credit form data
@@ -68,7 +67,7 @@ submitForm.addEventListener("submit", (event) => {
     account: document.querySelector("#creditAccount").value,
     amount: document.querySelector("#creditAmount").value,
     //backEndCalculation: -document.querySelector("#debitAmount").value,
-    user_id:1
+    user_id: 1,
     //myFileVal: document.querySelector("#myFile").value,
   };
 
@@ -95,29 +94,27 @@ submitForm.addEventListener("submit", (event) => {
     .then(function (responseData) {
       console.log(responseData);
     });
-    init();
-    document.querySelector("#debitJournalId").value="";
-    document.querySelector("#debitDate").value="";
-    document.querySelector("#debitAccount").value="";
-    document.querySelector("#debitAmount").value="";
-    document.querySelector("#creditJournalId").value="";
-    document.querySelector("#creditDate").value="";
-    document.querySelector("#creditAccount").value="";
-    document.querySelector("#creditAmount").value="";
-    
-  }
-);
+  init();
+  document.querySelector("#debitJournalId").value = "";
+  document.querySelector("#debitDate").value = "";
+  document.querySelector("#debitAccount").value = "";
+  document.querySelector("#debitAmount").value = "";
+  document.querySelector("#creditJournalId").value = "";
+  document.querySelector("#creditDate").value = "";
+  document.querySelector("#creditAccount").value = "";
+  document.querySelector("#creditAmount").value = "";
+});
 
 function init() {
-  document.querySelector("#itemContainer").innerHTML="";
+  document.querySelector("#itemContainer").innerHTML = "";
   fetch("/api/accountData")
     .then(function (response) {
       return response.json();
     })
     .then(function (responseData) {
       console.log(responseData);
-      accountData=responseData.accountData;
-      console.log(accountData)
+      accountData = responseData.accountData;
+      console.log(accountData);
       idSeed = Math.floor(accountData.length / 2 + 1);
       renderTable(accountData);
     });
@@ -125,14 +122,14 @@ function init() {
 }
 
 function renderTable(accountData) {
-  for (let i = 0; i < accountData.length - 1; i++) {
+  for (let i = accountData.length - 1; i >= 0; i--) {
     //debit account make new item
     let resultHTML = "";
     if (i === 0 || i % 2 === 0) {
-      let year= (accountData[i].date).slice(0,4);
-      let month =(accountData[i].date).slice(6,7);
-      let day = (accountData[i].date).slice(9,10);
-      let fullDate = year+"-"+month+"-"+day;
+      // let year = accountData[i].date.slice(0, 4);
+      // let month = accountData[i].date.slice(6, 7);
+      // let day = accountData[i].date.slice(9, 10);
+      // let fullDate = year + "-" + month + "-" + day;
 
       resultHTML += `
                 <div class="sheet-item">
@@ -140,14 +137,14 @@ function renderTable(accountData) {
                         <ul class="debit-item">
                             <li>${accountData[i].journal_id}</li>
                             <li>Debit</li>
-                            <li>${fullDate}</li>
+                            <li>${accountData[i].date.slice(0, 10)}</li>
                             <li>${accountData[i].account}</li>
                             <li>${accountData[i].amount}</li>
                         </ul>
                         <ul class="credit-item">
                             <li>${accountData[i + 1].journal_id}</li>
                             <li>Credit</li>
-                            <li>${fullDate}</li>
+                            <li>${accountData[i].date.slice(0, 10)}</li>
                             <li>${accountData[i + 1].account}</li>
                             <li>${accountData[i + 1].amount}</li>
                         </ul>
@@ -171,7 +168,7 @@ function renderProfitAndLoss() {
     })
     .then(function (responseData) {
       console.log(responseData);
-      let accountData=responseData.accountData;
+      let accountData = responseData.accountData;
       console.log(accountData);
       counterProfitAndLoss(accountData);
       document.querySelector(".loss").innerHTML = "";
@@ -216,12 +213,11 @@ function counterProfitAndLoss(accountData) {
     for (let j = 0; j < accountList.length; j++) {
       if (accountList[j] === accountData[i].account) {
         if (profitAndLossData.hasOwnProperty(accountList[j])) {
-          if(accountData[i].type==="debit"){
+          if (accountData[i].type === "debit") {
             profitAndLossData[accountList[j]] += accountData[i].amount;
-          }else{
+          } else {
             profitAndLossData[accountList[j]] -= accountData[i].amount;
           }
-
         } else {
           profitAndLossData[accountList[j]] = accountData[i].amount;
         }
@@ -231,8 +227,5 @@ function counterProfitAndLoss(accountData) {
   console.log(profitAndLossData);
   return profitAndLossData;
 }
-
-
-
 
 init();
